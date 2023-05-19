@@ -1,0 +1,11 @@
+[package]
+name = "example-serde-xml-enum-attr-type"
+version = "0.1.0"
+authors = ["Chris Snape-Jenkinson"]
+edition = "2021"
+license = "MIT"
+
+[dependencies]
+quick-xml = { version = "0.28", features = ["serialize"] }
+serde-value = "0.7"
+serde = { version = "1.0", features = ["derive", "rc"] }

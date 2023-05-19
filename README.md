@@ -1,11 +1,12 @@
 # About
 
-Example implementation of serializing to and deserializing from **XML** an enumeration of structures in **Rust**.
-The notable aspects of this method are:
-* the type of the enumeration is a namespaced attribute of the **XML** element
-* the data of the enumerated structure is *flattened* as children of the **XML** element
+Example in **Rust** of (de)serializing **XML** to/from an enumeration with variants of structures.
 
-## Example
+Notable aspects of this implementation are:
+* the enumeration variant is given as an attribute of the **XML** element
+* the fields of the variant's structure are *flattened* as children of the **XML** element
+
+# Example
 
 For **Rust** code like
 
@@ -22,6 +23,8 @@ enum Choice {
     TypeA(TypeA),
     TypeB(TypeB),
 }
+
+let choice = Choice::TypeA(TypeA { field_a: ... });
 ```
 
 the desired **XML** is
@@ -30,16 +33,16 @@ the desired **XML** is
 <element xsi:type="TypeA" xlmns:xsi="http://www.w3.org/2001/XMLSchema-instance"><field_a>...</field_a></element>
 ```
 
-## Motivation
+# Motivation
 
-The popular [`serde`](https://crates.io/crates/serde) **XML** implementations such as [`quick-xml`](https://crates.io/crates/quick-xml) and [`serde-xml-rs`](https://crates.io/crates/serde-xml-rs) do not readily support such (de)serialize out-of-the-box.
+Commonly used [`serde`](https://crates.io/crates/serde) **XML** implementations such as [`quick-xml`](https://crates.io/crates/quick-xml) and [`serde-xml-rs`](https://crates.io/crates/serde-xml-rs) do not readily support this (de)serialization due to a few implementation quirks.
+This is largely due to **XML** being a data format that can (de)serialize in many ways.
 
-## Technical Notes
+# Technical Notes
 
-Uses the [`serde-value`](https://crates.io/crates/serde-value) crate as an intermediary during deserialization to extract the type name.
-See tests in the `serde-value` implementation for example usage.
+Deserialization uses the [`serde-value`](https://crates.io/crates/serde-value) crate as an intermediary to provide access the variant name.
 
-## References
+# References
 
 * **serde**: [Conditionally deserialize sub-struct based on visited values](https://github.com/serde-rs/serde/issues/1470)
 * **Stack Overflow**: [serde: deserialize a field based on the value of another field](https://stackoverflow.com/questions/69767906)
